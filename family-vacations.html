@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where Next? · Family Vacation Destinations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0A2540;
+  --gold: #C9A84C;
+  --gold-light: #E8D5A3;
+  --cream: #F8F4EE;
+  --white: #ffffff;
+  --text: #1a1a1a;
+  --muted: #666;
+  --border: #e0d8cc;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 48px;
+  transition: all 0.3s ease;
+}
+nav.scrolled {
+  background: rgba(10,37,64,0.97);
+  backdrop-filter: blur(12px);
+  padding: 14px 48px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+}
+.nav-logo { font-family: 'Playfair Display', serif; color: var(--white); font-size: 1.1rem; letter-spacing: 0.05em; opacity: 0.9; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--gold); }
+
+/* HERO */
+.hero {
+  position: relative; height: 90vh; min-height: 640px;
+  display: flex; align-items: flex-end; overflow: hidden;
+  background: var(--navy);
+}
+.hero-photos {
+  position: absolute; inset: 0; z-index: 0;
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+.hero-photo {
+  background-size: cover; background-position: center;
+}
+.hero-photo-1 { background-image: url('images/london-strip.jpg'); background-position: center 40%; }
+.hero-photo-2 { background-image: url('images/london-hero.jpg'); background-position: center 30%; }
+.hero::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(160deg, rgba(10,37,64,0.92) 0%, rgba(10,37,64,0.72) 55%, rgba(10,37,64,0.50) 100%);
+}
+.hero-pattern { display: none; }
+
+.hero-content { position: relative; z-index: 2; padding: 72px 80px; max-width: 900px; }
+.hero-tag {
+  display: inline-block; background: var(--gold); color: var(--navy);
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 2px; margin-bottom: 24px;
+}
+.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 6vw, 5.5rem); color: var(--white); line-height: 1.05; margin-bottom: 20px; }
+.hero-title em { color: var(--gold-light); font-style: italic; }
+.hero-subtitle { color: rgba(255,255,255,0.7); font-size: 1.1rem; font-weight: 300; margin-bottom: 48px; max-width: 600px; line-height: 1.75; }
+.hero-stats { display: flex; gap: 48px; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 32px; }
+.hero-stat-label { color: rgba(255,255,255,0.5); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 4px; }
+.hero-stat-value { color: var(--white); font-size: 1.05rem; font-weight: 500; }
+
+.scroll-indicator {
+  position: absolute; bottom: 32px; right: 48px; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.4); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent); animation: scrollPulse 2s ease infinite; }
+@keyframes scrollPulse { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
+
+/* FILTER BAR */
+.filter-bar {
+  position: sticky; top: 56px; z-index: 100;
+  background: var(--white); border-bottom: 1px solid var(--border);
+  padding: 0 80px;
+  display: flex; align-items: center; gap: 0;
+}
+.filter-btn {
+  padding: 18px 28px; background: none; border: none; cursor: pointer;
+  font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500;
+  color: var(--muted); letter-spacing: 0.05em;
+  position: relative; transition: color 0.2s; white-space: nowrap;
+}
+.filter-btn::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--navy); transform: scaleX(0); transition: transform 0.25s ease;
+}
+.filter-btn.active { color: var(--navy); font-weight: 600; }
+.filter-btn.active::after { transform: scaleX(1); }
+.filter-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--cream); border-radius: 20px; padding: 1px 7px;
+  font-size: 0.68rem; font-weight: 600; color: var(--muted);
+  margin-left: 6px;
+}
+.filter-btn.active .filter-count { background: var(--gold); color: var(--navy); }
+
+/* GRID */
+.grid-section { padding: 64px 80px; background: var(--cream); }
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.dest-card {
+  position: relative; cursor: pointer; overflow: hidden;
+  aspect-ratio: 3/4; min-height: 380px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  transition: transform 0.3s ease;
+  border-top: 3px solid rgba(201,168,76,0.6);
+}
+.dest-card:hover { z-index: 2; }
+.card-photo {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  transition: transform 0.6s ease;
+}
+.dest-card:hover .card-photo { transform: scale(1.06); }
+.card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,37,64,0.92) 0%, rgba(10,37,64,0.3) 55%, rgba(0,0,0,0.05) 100%);
+  transition: background 0.3s ease;
+}
+.dest-card:hover .card-overlay { background: linear-gradient(to top, rgba(10,37,64,0.95) 0%, rgba(10,37,64,0.5) 60%, rgba(0,0,0,0.15) 100%); }
+.card-content { position: relative; z-index: 2; padding: 28px 24px; }
+.card-region { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.card-name { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--white); line-height: 1.2; margin-bottom: 8px; }
+.card-pitch { font-size: 0.82rem; color: rgba(255,255,255,0); line-height: 1.6; max-height: 0; overflow: hidden; transition: all 0.4s ease; }
+.dest-card:hover .card-pitch { color: rgba(255,255,255,0.75); max-height: 80px; }
+.card-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.68rem; font-weight: 600; padding: 3px 9px;
+  border-radius: 2px; letter-spacing: 0.04em;
+}
+.badge-direct { background: rgba(201,168,76,0.25); border: 1px solid rgba(201,168,76,0.5); color: var(--gold); }
+.badge-connect { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.55); }
+.badge-season { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); }
+.card-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold); margin-top: 14px;
+  opacity: 0; transform: translateY(6px); transition: all 0.3s ease;
+}
+.dest-card:hover .card-cta { opacity: 1; transform: translateY(0); }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(10,37,64,0.6); backdrop-filter: blur(4px);
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  width: 100%; max-width: 1080px; height: 88vh;
+  background: var(--white); border-radius: 4px 4px 0 0;
+  display: flex; flex-direction: column;
+  transform: translateY(40px); transition: transform 0.35s ease;
+  overflow: hidden;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 32px 48px 0;
+  flex-shrink: 0;
+}
+.modal-region { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--navy); line-height: 1.15; }
+.modal-close {
+  background: none; border: none; cursor: pointer; padding: 4px;
+  color: var(--muted); font-size: 1.4rem; line-height: 1; margin-top: 4px; flex-shrink: 0;
+  transition: color 0.2s;
+}
+.modal-close:hover { color: var(--navy); }
+.modal-tabs {
+  display: flex; gap: 0; border-bottom: 1px solid var(--border);
+  padding: 0 48px; margin-top: 24px; flex-shrink: 0;
+}
+.modal-tab {
+  padding: 14px 24px; background: none; border: none; cursor: pointer;
+  font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500;
+  color: var(--muted); position: relative; transition: color 0.2s; white-space: nowrap;
+}
+.modal-tab::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+  height: 2px; background: var(--navy); transform: scaleX(0); transition: transform 0.25s;
+}
+.modal-tab.active { color: var(--navy); font-weight: 600; }
+.modal-tab.active::after { transform: scaleX(1); }
+.modal-body { flex: 1; overflow-y: auto; padding: 40px 48px 56px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Modal content */
+.modal-hero-photo {
+  width: 100%; height: 280px;
+  background-size: cover; background-position: center;
+  border-radius: 2px; margin-bottom: 36px;
+  position: relative; overflow: hidden;
+}
+.modal-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,37,64,0.7) 0%, transparent 60%);
+  display: flex; align-items: flex-end; padding: 24px 28px;
+}
+.modal-hero-pitch { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--white); line-height: 1.4; font-style: italic; max-width: 560px; }
+
+.facts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-bottom: 40px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.fact-cell { background: var(--cream); padding: 20px 18px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.fact-cell:nth-child(4n) { border-right: none; }
+.fact-cell-icon { font-size: 1.2rem; margin-bottom: 8px; }
+.fact-cell-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 4px; }
+.fact-cell-value { font-size: 0.9rem; font-weight: 600; color: var(--navy); }
+.fact-cell-sub { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+.section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.about-text { font-size: 0.98rem; color: #333; line-height: 1.85; margin-bottom: 20px; }
+
+/* Flights panel */
+.flight-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+.flight-card { border: 1px solid var(--border); border-radius: 4px; padding: 28px 24px; }
+.flight-airport { font-size: 2rem; font-weight: 700; color: var(--navy); letter-spacing: 0.05em; margin-bottom: 4px; }
+.flight-city { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+.flight-direct { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600; padding: 4px 10px; border-radius: 2px; margin-bottom: 12px; }
+.flight-direct.yes { background: rgba(34,197,94,0.1); color: #15803d; border: 1px solid rgba(34,197,94,0.3); }
+.flight-direct.no { background: rgba(201,168,76,0.1); color: #92702a; border: 1px solid rgba(201,168,76,0.3); }
+.flight-detail { font-size: 0.88rem; color: var(--text); line-height: 1.7; }
+.flight-detail strong { color: var(--navy); }
+
+/* Weather panel */
+.weather-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-bottom: 32px; }
+.weather-card { background: var(--cream); padding: 24px 20px; border: 1px solid var(--border); }
+.weather-season { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.weather-months { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 8px; }
+.weather-temp { font-size: 0.88rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+.weather-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+.weather-stars { display: flex; gap: 2px; margin-top: 10px; }
+.star { font-size: 0.9rem; }
+
+/* Value props panel */
+.vp-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+.vp-tab { padding: 12px 20px; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500; color: var(--muted); position: relative; transition: color 0.2s; }
+.vp-tab::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transition: transform 0.25s; }
+.vp-tab.active { color: var(--navy); font-weight: 600; }
+.vp-tab.active::after { transform: scaleX(1); }
+.vp-panel { display: none; }
+.vp-panel.active { display: block; }
+.vp-list { list-style: none; }
+.vp-list li { display: flex; gap: 14px; align-items: flex-start; font-size: 0.92rem; color: var(--text); margin-bottom: 16px; line-height: 1.65; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.vp-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.vp-list li::before { content: '→'; color: var(--gold); flex-shrink: 0; font-weight: 600; margin-top: 1px; }
+
+/* Best time highlight */
+.best-time-banner {
+  background: var(--navy); color: var(--white);
+  padding: 20px 24px; border-radius: 4px; margin-bottom: 32px;
+  display: flex; align-items: center; gap: 16px;
+}
+.bt-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+.bt-value { font-size: 1rem; font-weight: 600; color: var(--gold); }
+
+/* CTA section */
+.cta-section { background: var(--navy); padding: 80px; text-align: center; }
+.cta-tag { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.cta-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.8rem); color: var(--white); line-height: 1.3; margin-bottom: 16px; }
+.cta-title em { color: var(--gold-light); font-style: italic; }
+.cta-subtitle { font-size: 0.95rem; color: rgba(255,255,255,0.6); max-width: 520px; margin: 0 auto 40px; line-height: 1.8; }
+.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-primary { background: var(--gold); color: var(--navy); text-decoration: none; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 16px 32px; border-radius: 2px; transition: opacity 0.2s; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary { border: 1px solid rgba(255,255,255,0.25); color: var(--white); text-decoration: none; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 16px 32px; border-radius: 2px; transition: border-color 0.2s; }
+.btn-secondary:hover { border-color: var(--gold); }
+
+/* Footer */
+footer { background: #050F1A; padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; }
+.footer-logo { font-family: 'Playfair Display', serif; color: rgba(255,255,255,0.35); font-size: 0.95rem; }
+.footer-note { font-size: 0.78rem; color: rgba(255,255,255,0.2); }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .facts-grid { grid-template-columns: repeat(2, 1fr); }
+  .facts-grid .fact-cell:nth-child(2n) { border-right: none; }
+  .facts-grid .fact-cell:nth-child(4n) { border-right: 1px solid var(--border); }
+}
+@media (max-width: 768px) {
+  nav, nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .hero-content { padding: 48px 28px; }
+  .hero-stats { flex-wrap: wrap; gap: 24px; }
+  section, .grid-section, .cta-section { padding: 48px 24px; }
+  .filter-bar { padding: 0 24px; overflow-x: auto; }
+  .grid { grid-template-columns: 1fr; }
+  .modal-header { padding: 24px 24px 0; }
+  .modal-tabs { padding: 0 24px; overflow-x: auto; }
+  .modal-body { padding: 28px 24px 48px; }
+  .flight-row { grid-template-columns: 1fr; }
+  .weather-grid { grid-template-columns: 1fr; }
+  .facts-grid { grid-template-columns: repeat(2, 1fr); }
+  .modal-title { font-size: 1.7rem; }
+  footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
+}
+
+/* METHODOLOGY SECTION */
+.method-section {
+  background: var(--cream);
+  padding: 96px 80px;
+  border-bottom: 1px solid var(--border);
+}
+.method-intro {
+  max-width: 640px;
+  margin-bottom: 72px;
+}
+.method-intro-tag {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+}
+.method-intro-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  color: var(--navy); line-height: 1.2; margin-bottom: 20px;
+}
+.method-intro-text {
+  font-size: 1rem; color: var(--muted); line-height: 1.85;
+}
+.method-rules {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+}
+.method-rule-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem; color: var(--gold-light);
+  line-height: 1; margin-bottom: 16px;
+}
+.method-rule-title {
+  font-size: 0.92rem; font-weight: 700; color: var(--navy);
+  margin-bottom: 10px; line-height: 1.35;
+}
+.method-rule-body {
+  font-size: 0.85rem; color: var(--muted); line-height: 1.75;
+}
+@media (max-width: 1024px) {
+  .method-rules { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .method-section { padding: 64px 24px; }
+  .method-rules { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* Fade-in animation */
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* Hidden destinations */
+.dest-card.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">Family Vacations</div>
+  <ul class="nav-links">
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#vote">Vote</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-photos">
+    <div class="hero-photo hero-photo-1"></div>
+    <div class="hero-photo hero-photo-2"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag">After London · Next Family Vacation</div>
+    <h1 class="hero-title">Where<br><em>Next?</em></h1>
+    <p class="hero-subtitle">London worked because everyone was in the same place at the same time with nothing left to figure out. We're doing that again — except this time we pick the destination first, then find the dates that work for everyone.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-label">Trip length</div>
+        <div class="hero-stat-value">7 full days</div>
+      </div>
+      <div>
+        <div class="hero-stat-label">Departures</div>
+        <div class="hero-stat-value">LAX · SEA</div>
+      </div>
+      <div>
+        <div class="hero-stat-label">Destinations</div>
+        <div class="hero-stat-value">11 researched</div>
+      </div>
+      <div>
+        <div class="hero-stat-label">SEA flights</div>
+        <div class="hero-stat-value">All direct</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator"><div class="scroll-line"></div>Scroll</div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="method-section">
+  <div class="method-intro">
+    <div class="method-intro-tag">How we built this list</div>
+    <h2 class="method-intro-title">Same formula as London.<br>Applied to the world.</h2>
+    <p class="method-intro-text">London set the template: one hotel for the whole week, everyone arrives together, no one has to figure out logistics alone. Every destination here was selected against that same standard — and a few hard rules we learned along the way.</p>
+  </div>
+  <div class="method-rules">
+    <div class="method-rule">
+      <div class="method-rule-num">01</div>
+      <div class="method-rule-title">Direct flight from Seattle, always</div>
+      <div class="method-rule-body">A connection with young kids adds hours of friction before the trip even starts. Every destination on this list has a nonstop from SEA. Non-negotiable.</div>
+    </div>
+    <div class="method-rule">
+      <div class="method-rule-num">02</div>
+      <div class="method-rule-title">One hotel. Seven full days.</div>
+      <div class="method-rule-body">The destination has to sustain a full week without running out of things to do — and without anyone having to pack a bag twice. One great base camp, day trips as the spokes. Iceland is the one road-trip exception.</div>
+    </div>
+    <div class="method-rule">
+      <div class="method-rule-num">03</div>
+      <div class="method-rule-title">Destination first, dates second</div>
+      <div class="method-rule-body">Instead of tagging along to someone else's already-planned trip, we agree on where we want to go — then collectively find the 9-day window that works for everyone.</div>
+    </div>
+    <div class="method-rule">
+      <div class="method-rule-num">04</div>
+      <div class="method-rule-title">Researched for every age in the group</div>
+      <div class="method-rule-body">Each destination is evaluated across four dimensions: what it offers kids, the whole family together, adults on their own, and the practical logistics of traveling as a large group.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FILTER + GRID -->
+<div id="destinations">
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterDestinations('all', this)">All <span class="filter-count">11</span></button>
+  <button class="filter-btn" onclick="filterDestinations('europe', this)">Europe <span class="filter-count">7</span></button>
+  <button class="filter-btn" onclick="filterDestinations('asia', this)">Asia <span class="filter-count">4</span></button>
+</div>
+
+<div class="grid-section">
+  <div class="grid" id="destGrid"></div>
+</div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section" id="vote">
+  <div class="cta-tag">Next Step</div>
+  <h2 class="cta-title">Pick your favorite.<br><em>Then we find the dates.</em></h2>
+  <p class="cta-subtitle">Browse the destinations above and click any card for the full picture — flights, weather, what the week looks like, and what makes it worth it for every age in the group. Once we know where everyone wants to go, we find the 9-day window that works for both families.</p>
+  <div class="cta-actions">
+    <a href="sms:+1XXXXXXXXXX" class="btn-primary">Text Maggie your vote</a>
+    <a href="#destinations" class="btn-secondary">Browse again</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Family Vacation Destinations</div>
+  <div class="footer-note">Maggie · Bill · Jordan</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-region" id="modalRegion"></div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="showModalTab('overview', this)">Overview</button>
+      <button class="modal-tab" onclick="showModalTab('flights', this)">Flights & Logistics</button>
+      <button class="modal-tab" onclick="showModalTab('weather', this)">Weather</button>
+      <button class="modal-tab" onclick="showModalTab('whygo', this)">Why Go</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <div class="tab-panel active" id="tab-overview"></div>
+      <div class="tab-panel" id="tab-flights"></div>
+      <div class="tab-panel" id="tab-weather"></div>
+      <div class="tab-panel" id="tab-whygo"></div>
+    </div>
+  </div>
+</div>
+
+<script src="destinations.js"></script>
+<script>
+// — destinations data lives in destinations.js —
+// Add or edit destinations there; no need to touch this file.
+
+
+
+// Render cards
+function renderCards(destinations) {
+  const grid = document.getElementById('destGrid');
+  grid.innerHTML = '';
+  destinations.forEach((d, i) => {
+    const card = document.createElement('div');
+    card.className = 'dest-card fade-up';
+    card.dataset.region = d.regionKey;
+    card.style.transitionDelay = (i % 3) * 0.1 + 's';
+    card.innerHTML = `
+      <div class="card-photo" style="background-image: url('images/${d.id}.jpg'); background-color: #0A2540;"></div>
+      <div class="card-overlay"></div>
+      <div class="card-content">
+        <div class="card-region">${d.regionLabel}</div>
+        <div class="card-name">${d.name}</div>
+        <div class="card-pitch">${d.pitch}</div>
+        <div class="card-badges">
+          <span class="badge ${d.lax.direct ? 'badge-direct' : 'badge-connect'}">${d.lax.direct ? '✈ LAX direct' : '↩ LAX connect'}</span>
+          <span class="badge badge-direct">✈ SEA ${d.sea.time}</span>
+          <span class="badge badge-season">★ ${d.bestTime}</span>
+        </div>
+        <div class="card-cta">View details →</div>
+      </div>
+    `;
+    card.addEventListener('click', () => openModal(d));
+    grid.appendChild(card);
+  });
+
+  // Trigger fade-in
+  setTimeout(() => {
+    document.querySelectorAll('.fade-up').forEach(el => {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+      }, { threshold: 0.05 });
+      observer.observe(el);
+    });
+  }, 50);
+}
+
+// Filter
+function filterDestinations(region, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards = document.querySelectorAll('.dest-card');
+  cards.forEach(card => {
+    const show = region === 'all' || card.dataset.region === region;
+    card.classList.toggle('hidden', !show);
+  });
+}
+
+// Modal
+let currentDest = null;
+
+function openModal(dest) {
+  currentDest = dest;
+  document.getElementById('modalRegion').textContent = dest.regionLabel;
+  document.getElementById('modalTitle').textContent = dest.name;
+
+  // Reset to overview tab
+  showModalTab('overview', document.querySelector('.modal-tab'));
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.modal-tab').classList.add('active');
+
+  // Populate all panels
+  populateOverview(dest);
+  populateFlights(dest);
+  populateWeather(dest);
+  populateWhyGo(dest);
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modal').scrollTop = 0;
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+function showModalTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (btn) {
+    document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+  }
+}
+
+function stars(n) {
+  return Array(5).fill(0).map((_, i) => `<span class="star" style="color:${i < n ? '#C9A84C' : '#ddd'}">★</span>`).join('');
+}
+
+function populateOverview(d) {
+  document.getElementById('tab-overview').innerHTML = `
+    <div class="modal-hero-photo" style="background-image: url('images/${d.id}.jpg'); background-color: #0A2540;">
+      <div class="modal-hero-overlay">
+        <div class="modal-hero-pitch">"${d.pitch}"</div>
+      </div>
+    </div>
+    <div class="section-label">About</div>
+    ${d.about.split('\n\n').map(p => `<p class="about-text">${p}</p>`).join('')}
+    ${d.groupNotes ? `
+    <div class="section-label" style="margin-top:28px;">For the Large Group</div>
+    <p class="about-text" style="margin-bottom:0;">${d.groupNotes}</p>
+    ` : ''}
+    <div class="facts-grid" style="margin-top:36px;">
+      <div class="fact-cell">
+        <div class="fact-cell-icon">✈️</div>
+        <div class="fact-cell-label">LAX → Destination</div>
+        <div class="fact-cell-value">${d.lax.direct ? 'Direct' : 'Connection'}</div>
+        <div class="fact-cell-sub">${d.lax.time}</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-cell-icon">✈️</div>
+        <div class="fact-cell-label">SEA → Destination</div>
+        <div class="fact-cell-value">${d.sea.direct ? 'Direct' : 'Connection'}</div>
+        <div class="fact-cell-sub">${d.sea.time}</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-cell-icon">🕐</div>
+        <div class="fact-cell-label">Time Difference</div>
+        <div class="fact-cell-value">${d.timeDiff}</div>
+      </div>
+      <div class="fact-cell">
+        <div class="fact-cell-icon">🛂</div>
+        <div class="fact-cell-label">Entry / Visa</div>
+        <div class="fact-cell-value" style="font-size:0.8rem; font-weight:500;">${d.visa}</div>
+      </div>
+    </div>
+    <div class="best-time-banner" style="margin-top:0;">
+      <div>
+        <div class="bt-label">Best time to visit</div>
+        <div class="bt-value">${d.bestTime}</div>
+      </div>
+    </div>
+  `;
+}
+
+function populateFlights(d) {
+  document.getElementById('tab-flights').innerHTML = `
+    <div class="section-label">Flights from Each City</div>
+    <div class="flight-row">
+      <div class="flight-card">
+        <div class="flight-airport">LAX</div>
+        <div class="flight-city">Los Angeles</div>
+        <div class="flight-direct ${d.lax.direct ? 'yes' : 'no'}">${d.lax.direct ? '✓ Direct flight available' : '↩ Connection required'}</div>
+        <div class="flight-detail">
+          <strong>Flight time:</strong> ${d.lax.time}<br>
+          <strong>Airlines:</strong> ${d.lax.airlines}<br><br>
+          ${d.lax.notes}
+        </div>
+      </div>
+      <div class="flight-card">
+        <div class="flight-airport">SEA</div>
+        <div class="flight-city">Seattle</div>
+        <div class="flight-direct ${d.sea.direct ? 'yes' : 'no'}">${d.sea.direct ? '✓ Direct flight available' : '↩ Connection required'}</div>
+        <div class="flight-detail">
+          <strong>Flight time:</strong> ${d.sea.time}<br>
+          <strong>Airlines:</strong> ${d.sea.airlines}<br><br>
+          ${d.sea.notes}
+        </div>
+      </div>
+    </div>
+    <div class="section-label">Logistics</div>
+    <div class="flight-card" style="max-width:100%;">
+      <div class="flight-detail">
+        <strong>Time difference:</strong> ${d.timeDiff}<br>
+        <strong>Entry requirements:</strong> ${d.visa}<br>
+        <strong>Format:</strong> 7 days — arrive Saturday · depart Sunday<br><br>
+        ${d.groupNotes || ''}
+      </div>
+    </div>
+  `;
+}
+
+function populateWeather(d) {
+  const cards = d.weather.map(w => `
+    <div class="weather-card">
+      <div class="weather-season">${w.season}</div>
+      <div class="weather-months">${w.months}</div>
+      <div class="weather-temp">${w.temp}</div>
+      <div class="weather-desc">${w.desc}</div>
+      <div class="weather-stars">${stars(w.rating)}</div>
+    </div>
+  `).join('');
+  document.getElementById('tab-weather').innerHTML = `
+    <div class="section-label">Weather by Season</div>
+    <div class="weather-grid">${cards}</div>
+    <div class="best-time-banner">
+      <div>
+        <div class="bt-label">Recommended window</div>
+        <div class="bt-value">${d.bestTime}</div>
+      </div>
+    </div>
+  `;
+}
+
+function populateWhyGo(d) {
+  const kidsItems = d.kids.map(k => `<li>${k}</li>`).join('');
+  const familyItems = d.family.map(f => `<li>${f}</li>`).join('');
+  const adultsItems = d.adults.map(a => `<li>${a}</li>`).join('');
+  document.getElementById('tab-whygo').innerHTML = `
+    <div class="vp-tabs">
+      <button class="vp-tab active" onclick="showVPTab('kids', this)">For Kids</button>
+      <button class="vp-tab" onclick="showVPTab('family', this)">For the Group</button>
+      <button class="vp-tab" onclick="showVPTab('adults', this)">For Adults</button>
+    </div>
+    <div class="vp-panel active" id="vp-kids"><ul class="vp-list">${kidsItems}</ul></div>
+    <div class="vp-panel" id="vp-family"><ul class="vp-list">${familyItems}</ul></div>
+    <div class="vp-panel" id="vp-adults"><ul class="vp-list">${adultsItems}</ul></div>
+  `;
+}
+
+function showVPTab(id, btn) {
+  document.querySelectorAll('.vp-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.vp-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('vp-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Keyboard close
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Initialize
+renderCards(DESTINATIONS);
+</script>
+</body>
+</html>
