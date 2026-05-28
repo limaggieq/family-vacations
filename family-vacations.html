@@ -261,6 +261,16 @@ nav.scrolled {
 .vp-list li { display: flex; gap: 14px; align-items: flex-start; font-size: 0.92rem; color: var(--text); margin-bottom: 16px; line-height: 1.65; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
 .vp-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 .vp-list li::before { content: '→'; color: var(--gold); flex-shrink: 0; font-weight: 600; margin-top: 1px; }
+.sketch-table { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.sketch-row { display: grid; grid-template-columns: 160px 1fr; border-bottom: 1px solid var(--border); }
+.sketch-row:last-child { border-bottom: none; }
+.sketch-day { padding: 14px 16px; background: var(--cream); font-size: 0.78rem; font-weight: 600; color: var(--navy); letter-spacing: 0.03em; display: flex; align-items: center; }
+.sketch-highlight { padding: 14px 18px; font-size: 0.88rem; color: var(--text); line-height: 1.6; display: flex; align-items: center; }
+.daytrips-list { display: flex; flex-direction: column; gap: 2px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.daytrip-item { padding: 16px 20px; border-bottom: 1px solid var(--border); background: var(--white); }
+.daytrip-item:last-child { border-bottom: none; }
+.daytrip-name { font-size: 0.88rem; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+.daytrip-desc { font-size: 0.85rem; color: #555; line-height: 1.6; }
 
 /* Best time highlight */
 .best-time-banner {
@@ -485,12 +495,14 @@ footer { background: #050F1A; padding: 40px 80px; display: flex; justify-content
       <button class="modal-tab" onclick="showModalTab('flights', this)">Flights & Logistics</button>
       <button class="modal-tab" onclick="showModalTab('weather', this)">Weather</button>
       <button class="modal-tab" onclick="showModalTab('whygo', this)">Why Go</button>
+      <button class="modal-tab" onclick="showModalTab('itinerary', this)">Itinerary</button>
     </div>
     <div class="modal-body" id="modalBody">
       <div class="tab-panel active" id="tab-overview"></div>
       <div class="tab-panel" id="tab-flights"></div>
       <div class="tab-panel" id="tab-weather"></div>
       <div class="tab-panel" id="tab-whygo"></div>
+      <div class="tab-panel" id="tab-itinerary"></div>
     </div>
   </div>
 </div>
@@ -570,6 +582,7 @@ function openModal(dest) {
   populateFlights(dest);
   populateWeather(dest);
   populateWhyGo(dest);
+  populateItinerary(dest);
 
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -724,6 +737,37 @@ function showVPTab(id, btn) {
   document.querySelectorAll('.vp-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('vp-' + id).classList.add('active');
   btn.classList.add('active');
+}
+
+function populateItinerary(d) {
+  const sketchRows = d.sketch.map(s => `
+    <div class="sketch-row">
+      <div class="sketch-day">${s.day}</div>
+      <div class="sketch-highlight">${s.highlight}</div>
+    </div>
+  `).join('');
+
+  const dayTripsSection = d.dayTrips ? `
+    <div class="section-label" style="margin-top:36px;">Day Trips</div>
+    <div class="daytrips-list">
+      ${d.dayTrips.map(t => `
+        <div class="daytrip-item">
+          <div class="daytrip-name">${t.name}</div>
+          <div class="daytrip-desc">${t.desc}</div>
+        </div>
+      `).join('')}
+    </div>
+  ` : `
+    <div class="section-label" style="margin-top:36px;">Day Trips</div>
+    <p class="about-text" style="color:var(--muted);">This destination is a road trip — the entire route is the day trip. See the 7-day sketch above for the full itinerary.</p>
+  `;
+
+  document.getElementById('tab-itinerary').innerHTML = `
+    <div class="section-label">7-Day Sketch</div>
+    <p class="about-text" style="color:var(--muted); margin-bottom:20px;">Arrive Saturday · Depart Sunday. Sample itinerary — adjust to the group's pace.</p>
+    <div class="sketch-table">${sketchRows}</div>
+    ${dayTripsSection}
+  `;
 }
 
 // Keyboard close
