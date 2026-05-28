@@ -45,17 +45,8 @@ nav.scrolled {
 .hero {
   position: relative; height: 90vh; min-height: 640px;
   display: flex; align-items: flex-end; overflow: hidden;
-  background: var(--navy);
+  background: url('images/london-hero.jpg') center top / cover no-repeat;
 }
-.hero-photos {
-  position: absolute; inset: 0; z-index: 0;
-  display: grid; grid-template-columns: 1fr 1fr;
-}
-.hero-photo {
-  background-size: cover; background-position: center;
-}
-.hero-photo-1 { background-image: url('images/london-strip.jpg'); background-position: center 40%; }
-.hero-photo-2 { background-image: url('images/london-hero.jpg'); background-position: center 30%; }
 .hero::before {
   content: ''; position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(160deg, rgba(10,37,64,0.92) 0%, rgba(10,37,64,0.72) 55%, rgba(10,37,64,0.50) 100%);
@@ -389,10 +380,6 @@ footer { background: #050F1A; padding: 40px 80px; display: flex; justify-content
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-photos">
-    <div class="hero-photo hero-photo-1"></div>
-    <div class="hero-photo hero-photo-2"></div>
-  </div>
   <div class="hero-content">
     <div class="hero-tag">After London · Next Family Vacation</div>
     <h1 class="hero-title">Where<br><em>Next?</em></h1>
