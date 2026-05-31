@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chengdu Logistics · Family Vacations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0A2540;
+  --gold: #C9A84C;
+  --gold-light: #E8D5A3;
+  --cream: #F8F4EE;
+  --white: #ffffff;
+  --text: #1a1a1a;
+  --muted: #666;
+  --border: #e0d8cc;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(10,37,64,0.97); backdrop-filter: blur(12px);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 48px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+}
+.nav-logo { font-family: 'Playfair Display', serif; color: var(--white); font-size: 1.1rem; letter-spacing: 0.05em; opacity: 0.9; text-decoration: none; }
+.nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+.nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-back { color: rgba(255,255,255,0.5) !important; font-size: 0.78rem !important; }
+.nav-back:hover { color: var(--gold) !important; }
+
+/* HERO */
+.dest-hero {
+  position: relative; height: 52vh; min-height: 380px;
+  display: flex; align-items: flex-end; overflow: hidden;
+  background: url('images/chengdu.jpg') center 40% / cover no-repeat;
+  margin-top: 56px;
+}
+.dest-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(10,37,64,0.92) 0%, rgba(10,37,64,0.6) 55%, rgba(10,37,64,0.45) 100%);
+}
+.dest-hero-content { position: relative; z-index: 2; padding: 56px 80px; }
+.dest-hero-tag {
+  display: inline-block; background: var(--gold); color: var(--navy);
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 2px; margin-bottom: 16px;
+}
+.dest-hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--white); line-height: 1.1; margin-bottom: 12px; }
+.dest-hero-sub { color: rgba(255,255,255,0.65); font-size: 1rem; font-weight: 300; max-width: 560px; }
+
+/* MAIN CONTENT */
+.logistics-section { background: var(--white); padding: 80px 80px 96px; }
+.section-intro { max-width: 640px; margin-bottom: 64px; }
+.section-intro-tag {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+}
+.section-intro-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  color: var(--navy); line-height: 1.2; margin-bottom: 20px;
+}
+.section-intro-text { font-size: 1rem; color: var(--muted); line-height: 1.85; }
+
+/* CATEGORY HEADERS */
+.category-block { margin-bottom: 72px; }
+.category-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 20px;
+}
+.category-title {
+  font-family: 'Playfair Display', serif; font-size: 1.6rem;
+  color: var(--navy); margin-bottom: 10px;
+}
+.category-desc { font-size: 0.9rem; color: var(--muted); margin-bottom: 28px; max-width: 680px; line-height: 1.75; }
+
+/* HOTEL CARDS */
+.hotel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.hotel-card {
+  border: 1px solid var(--border); border-radius: 6px; padding: 24px;
+  background: var(--white); transition: box-shadow 0.2s;
+}
+.hotel-card:hover { box-shadow: 0 4px 20px rgba(10,37,64,0.08); }
+.hotel-badge {
+  display: inline-block; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 2px; margin-bottom: 12px;
+}
+.hotel-badge.city { background: rgba(10,37,64,0.08); color: var(--navy); }
+.hotel-badge.resort { background: rgba(201,168,76,0.15); color: #8a6a1a; }
+.hotel-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 6px; }
+.hotel-brand { font-size: 0.78rem; color: var(--muted); margin-bottom: 14px; }
+.hotel-price {
+  font-size: 1.1rem; font-weight: 600; color: var(--navy);
+  margin-bottom: 4px;
+}
+.hotel-price span { font-size: 0.78rem; font-weight: 400; color: var(--muted); }
+.hotel-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; margin-bottom: 16px; }
+.hotel-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.hotel-tag {
+  font-size: 0.68rem; font-weight: 500; padding: 3px 9px; border-radius: 10px;
+  background: var(--cream); color: var(--muted); border: 1px solid var(--border);
+}
+.hotel-tag.highlight { background: rgba(34,197,94,0.1); color: #15803d; border-color: rgba(34,197,94,0.2); }
+.hotel-tag.note { background: rgba(234,179,8,0.1); color: #854d0e; border-color: rgba(234,179,8,0.2); }
+.hotel-link { font-size: 0.78rem; font-weight: 600; color: var(--navy); text-decoration: none; letter-spacing: 0.04em; }
+.hotel-link:hover { color: var(--gold); }
+
+/* FLIGHTS */
+.flight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+.flight-card {
+  border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+}
+.flight-card-header {
+  background: var(--navy); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;
+}
+.flight-route { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--white); }
+.flight-code { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; color: var(--gold); }
+.flight-body { padding: 18px 20px; }
+.flight-airline { font-size: 0.82rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+.flight-detail { font-size: 0.82rem; color: var(--muted); line-height: 1.75; }
+.flight-detail strong { color: var(--text); }
+.flight-price-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border);
+}
+.flight-price { font-size: 1.05rem; font-weight: 600; color: var(--navy); }
+.flight-price span { font-size: 0.75rem; font-weight: 400; color: var(--muted); }
+.flight-caveat { font-size: 0.75rem; color: #c2410c; font-weight: 500; }
+
+.flight-note {
+  background: var(--cream); border: 1px solid var(--border); border-radius: 4px;
+  padding: 16px 20px; font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+}
+.flight-note strong { color: var(--navy); }
+
+/* VISA */
+.visa-compare {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+  margin-bottom: 24px;
+}
+.visa-option { padding: 28px; background: var(--white); }
+.visa-option:first-child { border-right: 1px solid var(--border); }
+.visa-option-header {
+  display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px;
+}
+.visa-letter {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700;
+}
+.visa-letter.a { background: var(--navy); color: var(--white); }
+.visa-letter.b { background: var(--gold); color: var(--navy); }
+.visa-option-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 4px; }
+.visa-option-sub { font-size: 0.78rem; color: var(--muted); }
+.visa-rows { display: flex; flex-direction: column; gap: 10px; }
+.visa-row { display: flex; gap: 12px; font-size: 0.82rem; }
+.visa-row-label { font-weight: 600; color: var(--navy); width: 100px; flex-shrink: 0; }
+.visa-row-value { color: var(--muted); line-height: 1.55; }
+.visa-pro { display: flex; align-items: flex-start; gap: 8px; margin-top: 16px; }
+.visa-pro-dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; flex-shrink: 0; margin-top: 6px; }
+.visa-pro-text { font-size: 0.8rem; color: #166534; }
+.visa-con { display: flex; align-items: flex-start; gap: 8px; margin-top: 6px; }
+.visa-con-dot { width: 6px; height: 6px; border-radius: 50%; background: #f59e0b; flex-shrink: 0; margin-top: 6px; }
+.visa-con-text { font-size: 0.8rem; color: #92400e; }
+
+.visa-note {
+  background: var(--cream); border: 1px solid var(--border); border-radius: 4px;
+  padding: 16px 20px; font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+}
+.visa-note strong { color: var(--navy); }
+.visa-note + .visa-note { margin-top: 10px; }
+
+.visa-rec {
+  margin-top: 20px; border: 2px solid var(--navy); border-radius: 4px; overflow: hidden;
+}
+.visa-rec-header {
+  background: var(--navy); padding: 12px 20px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white);
+}
+.visa-rec-body { padding: 18px 20px; font-size: 0.88rem; color: var(--muted); line-height: 1.75; }
+.visa-rec-body strong { color: var(--navy); }
+
+footer { background: #050F1A; padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; }
+.footer-logo { font-family: 'Playfair Display', serif; color: rgba(255,255,255,0.35); font-size: 0.95rem; }
+.footer-note { font-size: 0.78rem; color: rgba(255,255,255,0.2); }
+
+@media (max-width: 768px) {
+  nav { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .dest-hero-content { padding: 40px 24px; }
+  .logistics-section { padding: 48px 24px 72px; }
+  .flight-grid { grid-template-columns: 1fr; }
+  .hotel-grid { grid-template-columns: 1fr; }
+  .visa-compare { grid-template-columns: 1fr; }
+  .visa-option:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+  footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="family-vacations.html" class="nav-logo">Family Vacations</a>
+  <ul class="nav-links">
+    <li><a href="chengdu.html">Plan Chengdu</a></li>
+    <li><a href="family-vacations.html#destinations">All Destinations</a></li>
+    <li><a href="family-vacations.html" class="nav-back">← Back</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="dest-hero">
+  <div class="dest-hero-content">
+    <div class="dest-hero-tag">Asia · China · Logistics</div>
+    <h1 class="dest-hero-title">Getting There</h1>
+    <p class="dest-hero-sub">Hotels, flights, and visa options — everything you need to lock in the trip.</p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<section class="logistics-section">
+
+  <div class="section-intro">
+    <div class="section-intro-tag">Trip logistics</div>
+    <h2 class="section-intro-title">Hotels. Flights. Visas.</h2>
+    <p class="section-intro-text">Options for three families traveling together. All prices are approximate 2025–2026 rates — book early for availability at the same property.</p>
+  </div>
+
+  <!-- HOTELS -->
+  <div class="category-block" id="hotels">
+    <div class="category-label">Where to stay</div>
+    <h3 class="category-title">Hotels</h3>
+    <p class="category-desc">City-center hotels put everything walkable or a short taxi away. The Six Senses is a different trip entirely — a resort escape 60 km outside the city, best as a standalone overnight rather than a base.</p>
+
+    <div class="hotel-grid">
+
+      <div class="hotel-card">
+        <div class="hotel-badge city">Chunxi Road · Best Value</div>
+        <div class="hotel-name">Grand Hyatt Chengdu</div>
+        <div class="hotel-brand">Hyatt · Qunguang Plaza · Chunxi Road</div>
+        <div class="hotel-price">$117–202 <span>/ night</span></div>
+        <p class="hotel-desc">Floors 10–39 of the iconic Qunguang Plaza on historic Chunxi Road — Chengdu's main shopping and dining corridor, steps from Taikoo Li and Kuanzhai Alley. French garden, indoor pool, 8 restaurants. Designed by Yabu Pushelberg. Strong price-to-location ratio.</p>
+        <div class="hotel-tags">
+          <span class="hotel-tag highlight">Chunxi Road</span>
+          <span class="hotel-tag highlight">Near Taikoo Li</span>
+          <span class="hotel-tag">Hyatt points</span>
+          <span class="hotel-tag">Pool</span>
+          <span class="hotel-tag">8 restaurants</span>
+        </div>
+        <a href="https://www.hyatt.com/grand-hyatt/en-US/ctugh-grand-hyatt-chengdu" target="_blank" class="hotel-link">View on Hyatt →</a>
+      </div>
+
+      <div class="hotel-card">
+        <div class="hotel-badge city">City Center · Most Luxurious</div>
+        <div class="hotel-name">Waldorf Astoria Chengdu</div>
+        <div class="hotel-brand">Hilton · Jinjiang District</div>
+        <div class="hotel-price">$142–294 <span>/ night</span></div>
+        <p class="hotel-desc">The top luxury pick in central Chengdu. Larger rooms, standout service, and a flagship restaurant. Rates vary widely — book ahead for the lower end of the range. Hilton Honors eligible.</p>
+        <div class="hotel-tags">
+          <span class="hotel-tag highlight">Top-tier service</span>
+          <span class="hotel-tag">Hilton points</span>
+          <span class="hotel-tag">City center</span>
+        </div>
+        <a href="https://www.hilton.com/en/hotels/ctuwawa-waldorf-astoria-chengdu/" target="_blank" class="hotel-link">View on Hilton →</a>
+      </div>
+
+      <div class="hotel-card">
+        <div class="hotel-badge city">Tianfu Square · Forbes 5-Star</div>
+        <div class="hotel-name">The Ritz-Carlton Chengdu</div>
+        <div class="hotel-brand">Marriott Bonvoy · Tianfu Square</div>
+        <div class="hotel-price">$124–174 <span>/ night</span></div>
+        <p class="hotel-desc">Overlooks Tianfu Square on floors 28–41. Forbes Travel Guide 5-star for 6 consecutive years. Full-floor spa with jade relaxation beds and vitality pools, indoor pool, and three dining venues including FLAIR — the city's highest bar. Slightly more refined than the Grand Hyatt at a comparable price.</p>
+        <div class="hotel-tags">
+          <span class="hotel-tag highlight">Forbes 5-star</span>
+          <span class="hotel-tag highlight">Tianfu Square views</span>
+          <span class="hotel-tag">Marriott Bonvoy</span>
+          <span class="hotel-tag">Full-floor spa</span>
+          <span class="hotel-tag">Pool</span>
+        </div>
+        <a href="https://www.ritzcarlton.com/en/hotels/cturz-the-ritz-carlton-chengdu/overview/" target="_blank" class="hotel-link">View on Ritz-Carlton →</a>
+      </div>
+
+      <div class="hotel-card">
+        <div class="hotel-badge city">Gaoxin District</div>
+        <div class="hotel-name">W Chengdu</div>
+        <div class="hotel-brand">Marriott · Gaoxin Hi-Tech Zone</div>
+        <div class="hotel-price">~$180 <span>/ night</span></div>
+        <p class="hotel-desc">Design-forward and stylish, but located in the Gaoxin business/tech district — not central. Taxi or metro required for most sightseeing. Good option if you're mixing business with the trip or prefer the vibe over convenience.</p>
+        <div class="hotel-tags">
+          <span class="hotel-tag note">Not city center</span>
+          <span class="hotel-tag">Marriott points</span>
+          <span class="hotel-tag">Design hotel</span>
+        </div>
+        <a href="https://www.marriott.com/en-us/hotels/ctuwh-w-chengdu/overview/" target="_blank" class="hotel-link">View on Marriott →</a>
+      </div>
+
+      <div class="hotel-card">
+        <div class="hotel-badge resort">Qingcheng Mountain · Resort Escape</div>
+        <div class="hotel-name">Six Senses Qingcheng Mountain</div>
+        <div class="hotel-brand">Six Senses · ~60 km from city</div>
+        <div class="hotel-price">$287–449 <span>/ night</span></div>
+        <p class="hotel-desc">Tucked into the hills near Qingcheng Mountain and the Dujiangyan irrigation site. Stunning setting — think bamboo, mist, and villa-style rooms. Too remote to use as a city base. Works best as a 1–2 night add-on at the start or end of the trip, especially paired with a Dujiangyan day visit.</p>
+        <div class="hotel-tags">
+          <span class="hotel-tag note">60 km from city</span>
+          <span class="hotel-tag highlight">Resort / spa</span>
+          <span class="hotel-tag">Near Dujiangyan</span>
+          <span class="hotel-tag">Standalone stay</span>
+        </div>
+        <a href="https://www.sixsenses.com/en/resorts/qingcheng-mountain" target="_blank" class="hotel-link">View on Six Senses →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FLIGHTS -->
+  <div class="category-block" id="flights">
+    <div class="category-label">Getting there</div>
+    <h3 class="category-title">Flights</h3>
+    <p class="category-desc">Two realistic direct-flight options from the West Coast. LA flies direct to Chengdu. Seattle flies to Chongqing, then a short high-speed rail ride into Chengdu — total door-to-door is comparable.</p>
+
+    <div class="flight-grid">
+
+      <div class="flight-card">
+        <div class="flight-card-header">
+          <div class="flight-route">LAX → TFU</div>
+          <div class="flight-code">3U 3838</div>
+        </div>
+        <div class="flight-body">
+          <div class="flight-airline">Sichuan Airlines</div>
+          <div class="flight-detail">
+            <strong>Aircraft:</strong> Airbus A350<br>
+            <strong>Duration:</strong> ~15h 40m nonstop<br>
+            <strong>Frequency:</strong> Tuesday · Friday · Sunday<br>
+            <strong>Arrives:</strong> Chengdu Tianfu International (TFU)
+          </div>
+          <div class="flight-price-row">
+            <div>
+              <div class="flight-price">from ~$421 <span>/ person economy</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flight-card">
+        <div class="flight-card-header">
+          <div class="flight-route">SEA → CKG</div>
+          <div class="flight-code">HU 446</div>
+        </div>
+        <div class="flight-body">
+          <div class="flight-airline">Hainan Airlines</div>
+          <div class="flight-detail">
+            <strong>Aircraft:</strong> Boeing 787 Dreamliner<br>
+            <strong>Duration:</strong> ~15h nonstop<br>
+            <strong>Frequency:</strong> Thursday only (1×/week)<br>
+            <strong>Arrives:</strong> Chongqing Jiangbei (CKG)<br>
+            <strong>Then:</strong> High-speed rail CKG → Chengdu ~1h 10m
+          </div>
+          <div class="flight-price-row">
+            <div>
+              <div class="flight-price">~$468–552 <span>/ person economy</span></div>
+              <div class="flight-caveat">Thursday departure locks your start date</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="flight-note">
+      <strong>Note on the SEA option:</strong> The Thursday-only frequency means Julie's family would need to depart on a Thursday — no flexibility on departure day. If dates don't line up, LAX on a shared Sichuan flight (Tue/Fri/Sun) is likely easier for coordination. Both families flying the same LAX flight simplifies arrival logistics significantly.
+    </div>
+  </div>
+
+  <!-- VISA -->
+  <div class="category-block" id="visa">
+    <div class="category-label">Entry requirements</div>
+    <h3 class="category-title">Visa Options</h3>
+    <p class="category-desc">US citizens have two paths into China. Option A requires upfront paperwork but gives you a 10-year visa with no routing constraints. Option B is instant and free but requires careful planning around the onward-ticket rule.</p>
+
+    <div class="visa-compare">
+
+      <!-- OPTION A -->
+      <div class="visa-option">
+        <div class="visa-option-header">
+          <div class="visa-letter a">A</div>
+          <div>
+            <div class="visa-option-name">L Tourist Visa</div>
+            <div class="visa-option-sub">Apply in advance · 10-year multiple entry</div>
+          </div>
+        </div>
+        <div class="visa-rows">
+          <div class="visa-row">
+            <div class="visa-row-label">Cost</div>
+            <div class="visa-row-value">$140–252/person (varies by agency; COVA or Chinese consulate)</div>
+          </div>
+          <div class="visa-row">
+            <div class="visa-row-label">Processing</div>
+            <div class="visa-row-value">4 business days standard; expedited available</div>
+          </div>
+          <div class="visa-row">
+            <div class="visa-row-label">Validity</div>
+            <div class="visa-row-value">10-year multiple entry; unlimited trips per entry</div>
+          </div>
+          <div class="visa-row">
+            <div class="visa-row-label">Routing</div>
+            <div class="visa-row-value">Fly anywhere — no onward ticket required</div>
+          </div>
+          <div class="visa-row">
+            <div class="visa-row-label">Children</div>
+            <div class="visa-row-value">Each child needs their own visa. If traveling with one parent, bring a notarized letter of consent from the absent parent.</div>
+          </div>
+        </div>
+        <div class="visa-pro">
+          <div class="visa-pro-dot"></div>
+          <div class="visa-pro-text">One-time effort, then use freely for 10 years — worth it if you plan to return.</div>
+        </div>
+        <div class="visa-pro">
+          <div class="visa-pro-dot"></div>
+          <div class="visa-pro-text">No routing constraints. Fly direct LAX → Chengdu.</div>
+        </div>
+        <div class="visa-con">
+          <div class="visa-con-dot"></div>
+          <div class="visa-con-text">Requires application, docs, and appointment ~3–4 weeks before travel.</div>
+        </div>
+      </div>
+
+      <!-- OPTION B -->
+      <div class="visa-option">
+        <div class="visa-option-header">
+          <div class="visa-letter b">B</div>
+          <div>
+            <div class="visa-option-name">240-Hour Transit Visa-Free</div>
+            <div class="visa-option-sub">No application needed · Free · Max 10 days</div>
+          </div>
+        </div>
+        <div class="visa-rows">
+          <div class="visa-row">
+            <div class="visa-row-label">Cost</div>
+            <div class="visa-row-value">Free — no application, no consulate visit</div>
+          </div>
+          <div class="visa-row">
+            <div class="visa-row-label">Stay limit</div>
+            <div class="visa-row-value">240 hours (10 days) from entry</div>
+          </div>
+          <div class="visa-row">
+            <div class="visa-row-label">Key rule</div>
+            <div class="visa-row-value">Must have a confirmed onward ticket to a <em>third country</em> (not the US) departing within the 240-hour window</div>
+          </div>
+          <div class="visa-row">
+            <div class="visa-row-label">Routing</div>
+            <div class="visa-row-value">Can fly <strong>direct to Chengdu (TFU)</strong> — no Hong Kong stopover required. The HK routing is outdated advice.</div>
+          </div>
+          <div class="visa-row">
+            <div class="visa-row-label">Upgraded</div>
+            <div class="visa-row-value">Policy upgraded from 144h → 240h in December 2024</div>
+          </div>
+        </div>
+        <div class="visa-pro">
+          <div class="visa-pro-dot"></div>
+          <div class="visa-pro-text">Zero paperwork — just show up with your ticket.</div>
+        </div>
+        <div class="visa-pro">
+          <div class="visa-pro-dot"></div>
+          <div class="visa-pro-text">10-day window is enough for most trips.</div>
+        </div>
+        <div class="visa-con">
+          <div class="visa-con-dot"></div>
+          <div class="visa-con-text">Onward ticket to a third country required — e.g., fly HKG, SIN, or NRT before returning to US.</div>
+        </div>
+        <div class="visa-con">
+          <div class="visa-con-dot"></div>
+          <div class="visa-con-text">Hard 10-day cap. No extensions.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="visa-note">
+      <strong>Third-country onward ticket:</strong> For Option B, your exit flight must go to a country other than China <em>and</em> the US. A common solution: book an inexpensive one-way flight to Hong Kong, Japan, or Singapore as the exit leg, then a separate US return. This adds a small cost but keeps the trip visa-free.
+    </div>
+
+    <div class="visa-note" style="margin-top: 10px;">
+      <strong>All three families hold valid 10-year China visas</strong> from a previous trip — no visa action needed for anyone. Both options above are moot unless a visa expires before the trip.
+    </div>
+
+    <div class="visa-rec">
+      <div class="visa-rec-header">Recommendation</div>
+      <div class="visa-rec-body">
+        <strong>If you're planning to return to China again in the next decade: get the L visa (Option A).</strong> The upfront effort is a one-time cost and you'll never think about this again. $140–252/person, 4 days processing, done.<br><br>
+        If this is a one-time trip and you're comfortable booking a quick HKG or NRT hop as your exit leg, <strong>Option B works fine</strong> — just budget an extra day for the HK layover or treat it as a bonus stop.
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+  <div class="footer-logo">Family Vacation Destinations</div>
+  <div class="footer-note">Maggie · Bill · Jordan</div>
+</footer>
+
+</body>
+</html>
