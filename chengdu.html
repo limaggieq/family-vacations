@@ -131,6 +131,8 @@ nav {
 .date-family-cell.avail { background: rgba(34,197,94,0.1); }
 .date-family-cell.avail:hover { background: rgba(34,197,94,0.18); }
 .date-week-cell.golden-week { background: rgba(220,38,38,0.06); color: #b91c1c; }
+.key-date-chip { display: inline-block; font-size: 0.58rem; font-weight: 600; padding: 1px 6px; border-radius: 8px; margin-top: 3px; margin-right: 2px; background: rgba(201,168,76,0.15); color: #7a5c1a; border: 1px solid rgba(201,168,76,0.3); white-space: nowrap; }
+.key-date-chip.break { background: rgba(99,102,241,0.1); color: #4338ca; border-color: rgba(99,102,241,0.2); }
 .date-family-cell.golden-week { background: rgba(220,38,38,0.06); cursor: not-allowed; pointer-events: none; }
 .golden-week-label { font-size: 0.6rem; font-weight: 700; color: #b91c1c; letter-spacing: 0.04em; display: block; margin-top: 2px; }
 .avail-dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; margin: 0 auto; transition: background 0.15s; }
@@ -593,6 +595,16 @@ const WEEK_LABELS = ['1–7', '8–14', '15–21', '22–28'];
 // China Golden Weeks — avoid traveling (massive domestic crowds, price spikes)
 const GOLDEN_WEEKS = new Set(['2026-10-w1', '2027-05-w1']);
 
+const KEY_DATES = {
+  '2026-11-w2': ['Juj 🎂'],
+  '2026-12-w4': ['Jen 🎂'],
+  '2027-01-w2': ['Maggie 🎂', 'Hank 🎂'],
+  '2027-03-w3': ['Jordan Spring Break ➜'],
+  '2027-03-w4': ['Spring Break'],
+  '2027-04-w1': ['Spring Break ➜ 4/4', 'Julie 🎂 4/6'],
+  '2027-05-w2': ['Penny 🎂', 'Bill 🎂'],
+};
+
 const PLAN_ACTIVITIES = [
   { id: 'pandas-main',    group: 'Signature', name: 'Giant Panda Research Base',       link: 'https://www.tripadvisor.com/Attraction_Review-g297463-d457089-Reviews-Chengdu_Research_Base_of_Giant_Panda_Breeding-Chengdu_Sichuan.html',   rating: 4.6, reviewCount: '6,719', desc: 'Non-negotiable for anyone with young kids — pandas are most active at the 7:30am opening, cubs are in the nursery, and red pandas roam freely in a separate area. Adults without young kids still rate this highly. The experience degrades noticeably after 10am as crowds arrive, so go early or skip it.' },
   { id: 'sichuan-opera',  group: 'Signature', name: 'Sichuan Opera — Face Changing',   link: 'https://www.tripadvisor.com/Attraction_Review-g297463-d1759437-Reviews-Shu_Feng_Ya_Yun_Sichuan_Opera-Chengdu_Sichuan.html',                   rating: 4.4, reviewCount: '203', desc: 'Works for all ages. The face-changing (Bian Lian) is genuinely inexplicable even when you\'re sitting in the front row — not a gimmick. The 90-min show has multiple acts; fire-breathing and shadow puppetry lead up to the face-changing finale. Kids are mystified. Adults who think they\'ll be bored usually aren\'t.' },
@@ -654,7 +666,11 @@ function renderDateGrid() {
         </td>`;
       }
       const isGolden = GOLDEN_WEEKS.has(weekId);
-      html += `<td class="date-week-cell${isGolden ? ' golden-week' : ''}">${shortLabel} ${wk}${isGolden ? '<span class="golden-week-label">🇨🇳 Golden Week</span>' : ''}</td>`;
+      const keyChips = (KEY_DATES[weekId] || []).map(d => {
+        const isBreak = d.toLowerCase().includes('break');
+        return `<span class="key-date-chip${isBreak ? ' break' : ''}">${d}</span>`;
+      }).join('');
+      html += `<td class="date-week-cell${isGolden ? ' golden-week' : ''}">${shortLabel} ${wk}${isGolden ? '<span class="golden-week-label">🇨🇳 Golden Week</span>' : ''}${keyChips ? '<div style="margin-top:3px;">' + keyChips + '</div>' : ''}</td>`;
       PLAN_FAMILIES.forEach(f => {
         const avail = !isGolden && !!fd[f.id][weekId];
         html += isGolden
