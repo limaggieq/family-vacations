@@ -74,11 +74,14 @@ nav {
 
 .plan-tab-bar {
   display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 48px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
 }
+.plan-tab-bar::-webkit-scrollbar { display: none; }
 .plan-tab {
   padding: 14px 32px; background: none; border: none; cursor: pointer;
   font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500;
   color: var(--muted); position: relative; transition: color 0.2s;
+  white-space: nowrap; flex-shrink: 0;
 }
 .plan-tab::after {
   content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
@@ -261,16 +264,24 @@ footer { background: #050F1A; padding: 40px 80px; display: flex; justify-content
   .consensus-col:last-child { border-bottom: none; }
 }
 @media (max-width: 768px) {
-  nav { padding: 14px 24px; }
+  nav { padding: 14px 20px; }
   .nav-links { display: none; }
-  .dest-hero-content { padding: 40px 24px; }
-  .plan-section { padding: 48px 24px 72px; }
-  .plan-tab { padding: 12px 16px; font-size: 0.82rem; }
+  .dest-hero { min-height: 300px; }
+  .dest-hero-content { padding: 32px 20px; }
+  .dest-hero-title { font-size: clamp(1.8rem, 8vw, 2.8rem); }
+  .plan-section { padding: 36px 20px 64px; }
+  .plan-intro { margin-bottom: 32px; }
+  .plan-tab { padding: 11px 18px; font-size: 0.8rem; }
+  .plan-tab-bar { margin-bottom: 32px; }
+  .activity-row { flex-direction: column; gap: 10px; }
+  .vote-buttons { align-self: flex-start; }
+  .date-grid-wrapper::before { content: 'Scroll →'; display: block; font-size: 0.68rem; color: var(--muted); text-align: right; padding: 4px 8px 0; }
   .flight-grid { grid-template-columns: 1fr; }
   .hotel-grid { grid-template-columns: 1fr; }
   .visa-compare { grid-template-columns: 1fr; }
   .visa-option:first-child { border-right: none; border-bottom: 1px solid var(--border); }
-  footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
+  .category-title { font-size: 1.25rem; }
+  footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 20px; }
 }
 </style>
 </head>

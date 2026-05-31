@@ -298,22 +298,32 @@ footer { background: #050F1A; padding: 40px 80px; display: flex; justify-content
   .facts-grid .fact-cell:nth-child(4n) { border-right: 1px solid var(--border); }
 }
 @media (max-width: 768px) {
-  nav, nav.scrolled { padding: 14px 24px; }
+  nav, nav.scrolled { padding: 12px 20px; }
   .nav-links { display: none; }
-  .nav-mobile-cta { display: inline-block; color: var(--gold); text-decoration: none; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; border: 1px solid rgba(201,168,76,0.5); padding: 6px 12px; border-radius: 3px; }
-  .hero-content { padding: 48px 28px; }
-  .hero-stats { flex-wrap: wrap; gap: 24px; }
-  section, .grid-section, .cta-section { padding: 48px 24px; }
-  .filter-bar { padding: 0 24px; overflow-x: auto; }
+  .nav-mobile-cta { display: inline-block; color: var(--gold); text-decoration: none; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; border: 1px solid rgba(201,168,76,0.5); padding: 6px 12px; border-radius: 3px; white-space: nowrap; }
+  .hero-content { padding: 40px 20px 48px; }
+  .hero-subtitle { font-size: 0.95rem; margin-bottom: 32px; }
+  .hero-stats { flex-wrap: wrap; gap: 20px; padding-top: 24px; }
+  .hero-stat-value { font-size: 0.95rem; }
+  section, .grid-section, .cta-section { padding: 48px 20px; }
+  .filter-bar { padding: 0 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-btn { white-space: nowrap; flex-shrink: 0; }
   .grid { grid-template-columns: 1fr; }
-  .modal-header { padding: 24px 24px 0; }
-  .modal-tabs { padding: 0 24px; overflow-x: auto; }
-  .modal-body { padding: 28px 24px 48px; }
+  .modal { height: 92vh; border-radius: 12px 12px 0 0; }
+  .modal-header { padding: 20px 20px 0; }
+  .modal-title { font-size: 1.5rem; }
+  .modal-tabs { padding: 0 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .modal-tabs::-webkit-scrollbar { display: none; }
+  .modal-tab { white-space: nowrap; flex-shrink: 0; }
+  .modal-body { padding: 24px 20px 48px; }
+  .modal-hero-photo { height: 180px; }
+  .modal-hero-pitch { font-size: 1.05rem; }
   .flight-row { grid-template-columns: 1fr; }
   .weather-grid { grid-template-columns: 1fr; }
   .facts-grid { grid-template-columns: repeat(2, 1fr); }
-  .modal-title { font-size: 1.7rem; }
-  footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
+  .section-label { margin-top: 24px !important; }
+  footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 20px; }
 }
 
 /* METHODOLOGY SECTION */
