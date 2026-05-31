@@ -40,6 +40,7 @@ nav.scrolled {
 .nav-links { display: flex; gap: 32px; list-style: none; }
 .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
 .nav-links a:hover { color: var(--gold); }
+.nav-mobile-cta { display: none; }
 
 /* HERO */
 .hero {
@@ -299,6 +300,7 @@ footer { background: #050F1A; padding: 40px 80px; display: flex; justify-content
 @media (max-width: 768px) {
   nav, nav.scrolled { padding: 14px 24px; }
   .nav-links { display: none; }
+  .nav-mobile-cta { display: inline-block; color: var(--gold); text-decoration: none; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; border: 1px solid rgba(201,168,76,0.5); padding: 6px 12px; border-radius: 3px; }
   .hero-content { padding: 48px 28px; }
   .hero-stats { flex-wrap: wrap; gap: 24px; }
   section, .grid-section, .cta-section { padding: 48px 24px; }
@@ -379,6 +381,7 @@ footer { background: #050F1A; padding: 40px 80px; display: flex; justify-content
     <li><a href="chengdu.html">Plan Chengdu</a></li>
     <li><a href="#vote">Vote</a></li>
   </ul>
+  <a href="chengdu.html" class="nav-mobile-cta">Plan Chengdu →</a>
 </nav>
 
 <!-- HERO -->
