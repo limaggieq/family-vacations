@@ -130,6 +130,9 @@ nav {
 .date-family-cell:hover { background: var(--cream); }
 .date-family-cell.avail { background: rgba(34,197,94,0.1); }
 .date-family-cell.avail:hover { background: rgba(34,197,94,0.18); }
+.date-week-cell.golden-week { background: rgba(220,38,38,0.06); color: #b91c1c; }
+.date-family-cell.golden-week { background: rgba(220,38,38,0.06); cursor: not-allowed; pointer-events: none; }
+.golden-week-label { font-size: 0.6rem; font-weight: 700; color: #b91c1c; letter-spacing: 0.04em; display: block; margin-top: 2px; }
 .avail-dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; margin: 0 auto; transition: background 0.15s; }
 .date-family-cell.avail .avail-dot { background: #22c55e; }
 .date-all-cell { padding: 10px 14px; text-align: center; border-bottom: 1px solid var(--border); min-width: 80px; }
@@ -283,6 +286,9 @@ const PLAN_MONTHS = [
 
 const WEEK_LABELS = ['1–7', '8–14', '15–21', '22–28'];
 
+// China Golden Weeks — avoid traveling (massive domestic crowds, price spikes)
+const GOLDEN_WEEKS = new Set(['2026-10-w1', '2027-05-w1']);
+
 const PLAN_ACTIVITIES = [
   { id: 'pandas-main',   group: 'Signature', name: 'Giant Panda Research Base',       desc: 'Arrive at 7:30am opening — pandas most active in the morning, cubs in the nursery, red pandas roaming free.' },
   { id: 'sichuan-opera', group: 'Signature', name: 'Sichuan Opera — Face Changing',   desc: 'Bian Lian performers swap elaborate painted masks in milliseconds with no visible mechanism. Kids are completely mystified.' },
@@ -339,12 +345,15 @@ function renderDateGrid() {
           <span class="weather-chip ${month.weatherClass}">${month.weatherLabel}</span>
         </td>`;
       }
-      html += `<td class="date-week-cell">${shortLabel} ${wk}</td>`;
+      const isGolden = GOLDEN_WEEKS.has(weekId);
+      html += `<td class="date-week-cell${isGolden ? ' golden-week' : ''}">${shortLabel} ${wk}${isGolden ? '<span class="golden-week-label">🇨🇳 Golden Week</span>' : ''}</td>`;
       PLAN_FAMILIES.forEach(f => {
-        const avail = !!fd[f.id][weekId];
-        html += `<td class="date-family-cell${avail ? ' avail' : ''}" onclick="toggleWeek('${weekId}','${f.id}')" title="Toggle ${f.label}"><div class="avail-dot"></div></td>`;
+        const avail = !isGolden && !!fd[f.id][weekId];
+        html += isGolden
+          ? `<td class="date-family-cell golden-week" title="Golden Week — avoid"><div class="avail-dot"></div></td>`
+          : `<td class="date-family-cell${avail ? ' avail' : ''}" onclick="toggleWeek('${weekId}','${f.id}')" title="Toggle ${f.label}"><div class="avail-dot"></div></td>`;
       });
-      html += `<td class="date-all-cell"><div class="all-clear-star${allClear ? ' go' : ''}">★</div></td>`;
+      html += `<td class="date-all-cell"><div class="all-clear-star${!isGolden && allClear ? ' go' : ''}">★</div></td>`;
       html += `</tr>`;
     });
   });
