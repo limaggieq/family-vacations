@@ -614,6 +614,11 @@ function populateOverview(d) {
     <div class="section-label" style="margin-top:28px;">For the Large Group</div>
     <p class="about-text" style="margin-bottom:0;">${d.groupNotes}</p>
     ` : ''}
+    ${d.planUrl ? `
+    <div style="margin-top:28px;">
+      <a href="${d.planUrl}" style="display:inline-block; background:var(--navy); color:#fff; font-size:0.85rem; font-weight:600; letter-spacing:0.06em; padding:12px 24px; border-radius:3px; text-decoration:none;">Plan This Trip →</a>
+    </div>
+    ` : ''}
     <div class="facts-grid" style="margin-top:36px;">
       <div class="fact-cell">
         <div class="fact-cell-icon">✈️</div>

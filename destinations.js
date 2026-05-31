@@ -506,6 +506,7 @@ const DESTINATIONS = [
     directFlight: true,
     pitch: 'Pandas, bullet trains, Michelin food, and one of China\'s most livable cities — all from a single luxury hotel in the middle of everything.',
     about: 'Chengdu is the capital of Sichuan Province and one of China\'s most beloved cities — famously relaxed for a Chinese megacity, with a culture built around tea houses, street food, and the art of slowing down. It\'s known outside China primarily for its giant pandas, but that undersells it. The food alone is worth the flight: Sichuan cuisine is one of China\'s four great regional culinary traditions, and you\'re eating it at the source.\n\nTwo UNESCO World Heritage Sites — the Leshan Giant Buddha and the Dujiangyan Irrigation System — are reachable by bullet train in under an hour. That means serious day trips with no driving, no car seats, and no hotel changes. For a multi-household family with young kids, this combination of a strong city base and easy day-trip infrastructure is hard to match.',
+    planUrl: 'chengdu.html',
     gradient: 'linear-gradient(160deg, #7B2D00 0%, #B85420 40%, #E08855 100%)',
     lax: { direct: true, time: '~15h 45m', airlines: 'Sichuan Airlines (3U3838)', notes: '3x/week Tue/Fri/Sun. ~$850 roundtrip. Lands at Chengdu Tianfu (TFU) directly.' },
     sea: { direct: true, time: '13h 25m + 2–2.5h HSR', airlines: 'Hainan Airlines (SEA → CKQ)', notes: 'Direct flight lands at Chongqing (CKQ). Do NOT exit the airport — take HSR from CKQ Terminal 3 directly to Chengdu. Under 2.5h. No separate transfer needed.' },
